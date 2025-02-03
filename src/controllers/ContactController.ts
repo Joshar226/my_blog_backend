@@ -7,7 +7,6 @@ export class ContactController {
 
     static createContact = async ( req: Request, res: Response) => {
         const contact = new Contact(req.body)
-
         try {
             await contact.save()
             res.send('Solicitud Enviada Correctamente')

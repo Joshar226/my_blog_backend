@@ -20,8 +20,7 @@ const ContactSchema : Schema = new Schema({
         type: String,
         required: true,
         trim: true,
-        lowercase: true,
-        unique: true
+        lowercase: true
     },
     phone: {
         type: Number,

@@ -6,7 +6,6 @@ import { handleInputErrors } from '../middleware/validation'
 const router = Router()
 
 router.post('/', 
-    
     body('name')
         .notEmpty().withMessage('Digita tu nombre'),
     body('email')
