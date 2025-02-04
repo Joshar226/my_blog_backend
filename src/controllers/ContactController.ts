@@ -22,7 +22,15 @@ export class ContactController {
         } catch (error) {
             console.log(error);
         }
-    }
+    } 
 
-    
+    static updateStatus = async(req: Request, res: Response) => {
+        try {
+            req.contact.contacted = !req.contact.contacted
+            await req.contact.save()
+            res.send('Status Actualizado')
+        } catch (error) {
+            res.status(500).json({error: 'Hubo un error'})
+        }
+    }
 }

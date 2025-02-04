@@ -2,8 +2,11 @@ import { Router } from 'express'
 import { ContactController } from '../controllers/ContactController'
 import { body, param } from 'express-validator'
 import { handleInputErrors } from '../middleware/validation'
+import { contactExist } from '../middleware/contact'
 
 const router = Router()
+
+router.param('contactId', contactExist)
 
 router.post('/', 
     body('name')
@@ -12,7 +15,8 @@ router.post('/',
         .notEmpty().withMessage('Digita tu Email')
         .isEmail().withMessage('Digite un Email válido'),
     body('phone')
-        .notEmpty().withMessage('Digita tu número de teléfono'),
+        .notEmpty().withMessage('Digita tu número de teléfono')
+        .isNumeric().withMessage('Debe ser un numero'),
     body('message')
         .notEmpty().withMessage('Ingresa un resumen de tu razón de contacto'),
     handleInputErrors,
@@ -21,10 +25,9 @@ router.post('/',
 
 router.get('/', ContactController.getAllContacts)
 
-router.delete('/:contactId', 
-    param('contactId')
-        .isMongoId().withMessage('ID no valido'),
-    handleInputErrors
+router.post('/:contactId/status', 
+    param('contactId').isMongoId().withMessage('ID no valido'),
+    ContactController.updateStatus
 )
 
 export default router
